@@ -6,7 +6,7 @@ SOURCE_DATASET:
   MASK_DIR: "./dataset/CelebAMask-HQ-WO-Train_mask/"
 
 OCCLUDER_DATASET:
-  IMG_DIR: "./dataset/"
+  IMG_DIR: "./dataset/DTD/images"
   MASK_DIR: "./dataset/"
 
 OUTPUT_PATH: "./Result/RandOcc/"

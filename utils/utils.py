@@ -31,7 +31,8 @@ def validate_img_mask_pair(images_name,maskDir):
     validated_images_name=[]
     for img in images_name:
         img_name=img.split(".")[0]
-        if os.path.exists(maskDir+f"{img_name}.png"):
+        file_path = os.path.join(maskDir, f"{img_name}.png")
+        if os.path.exists(file_path):
             validated_images_name.append(img)
         else:
             print(f'skipping img {img_name} ...')
@@ -143,7 +144,7 @@ def augment_occluder(aug,occluder_img,occluder_mask,src_rect):
 
     return occluder_img,occluder_mask
 
-def get_randomOccluderNmask():
+def get_randomOccluderNmask(occlude_dir):
     #get random shape mask
     rad = np.random.rand()
     edgy = np.random.rand()
@@ -154,10 +155,11 @@ def get_randomOccluderNmask():
     occluder_mask=skimage.draw.polygon2mask((mask_shape,mask_shape),list(zip(x,y))).astype(np.uint8)*255
 
     # get random texture
-    texture_list= os.listdir("./dataset/DTD/images/")
+    texture_list= os.listdir(occlude_dir)
     # texture_list.remove('freckled')
     texture_choice=random.sample(texture_list,1)[0]
-    texture_img = random.sample(glob.glob(f"./dataset/DTD/images/{texture_choice}/*.jpg"),1)[0]
+    texture_occlude_dir = os.path.join(occlude_dir, texture_choice)
+    texture_img = random.sample(glob.glob(f"{texture_occlude_dir}/*.jpg"),1)[0]
     ori_occluder_img= cv2.imread(texture_img,-1)
     ori_occluder_img=cv2.resize(ori_occluder_img,(mask_shape,mask_shape))
     try:
@@ -183,7 +185,7 @@ def get_srcNmask(image_file,img_path,mask_path):
     src_img= cv2.imread(os.path.abspath(os.path.join(img_path,image_file)),-1)
     src_img = cv2.cvtColor(src_img, cv2.COLOR_BGR2RGB)
 
-    src_mask= cv2.imread(mask_path+f"{img_name}.png")
+    src_mask= cv2.imread(os.path.join(mask_path, f"{img_name}.png"))
     src_mask=cv2.resize(src_mask,(1024,1024),interpolation= cv2.INTER_LANCZOS4)
     src_mask=cv2.cvtColor(src_mask,cv2.COLOR_RGB2GRAY)
 

@@ -60,7 +60,7 @@ class Occlusion_Generator:
 
             #get occluder img and mask
             if self.args["randomOcclusion"]:
-                occluder_img , occluder_mask= get_randomOccluderNmask()
+                occluder_img , occluder_mask= get_randomOccluderNmask(self.args["occluderDir"])
             else:
                 occluder_img , occluder_mask= get_occluderNmask(occluder,self.args["occluderDir"],self.args["occluderMaskDir"])
            
@@ -115,11 +115,12 @@ class Occlusion_Generator:
             print(e)
             print(image)
     def save_images(self,img_name,image,mask,occlusion_mask):
-
-        cv2.imwrite(self.args["outputImgDir"]+f"{img_name}.jpg",image)
-        cv2.imwrite(self.args["outputMaskDir"]+f"{img_name}.png",mask/255   )
+        print(self.args["outputImgDir"])
+        
+        cv2.imwrite(os.path.join(self.args["outputImgDir"], f"{img_name}.jpg"),image)
+        cv2.imwrite(os.path.join(self.args["outputMaskDir"], f"{img_name}.png"),mask/255)
         if self.args["maskForOcclusion"]:
-            cv2.imwrite(self.args["occlusionMaskDir"]+f"{img_name}.png",occlusion_mask)
+            cv2.imwrite(os.path.join(self.args["occlusionMaskDir"], f"{img_name}.png"),occlusion_mask)
 
     def colour_transfer(self,src_img,src_mask,occluder_img,src_rect):
         ##change the colour of the occluder 
@@ -209,12 +210,12 @@ if __name__ == "__main__":
             "srcMaskDir":cfg.SOURCE_DATASET.MASK_DIR,
             "occluderDir": cfg.OCCLUDER_DATASET.IMG_DIR,
             "occluderMaskDir":cfg.OCCLUDER_DATASET.MASK_DIR,
-            "outputImgDir": cfg.OUTPUT_PATH +"img/",
-            "outputMaskDir": cfg.OUTPUT_PATH +"mask/",
+            "outputImgDir": os.path.join(cfg.OUTPUT_PATH, "img/"),
+            "outputMaskDir": os.path.join(cfg.OUTPUT_PATH, "mask/"),
             "colour_transfer_sot": cfg.AUGMENTATION.SOT,
             "rotate_around_center": cfg.AUGMENTATION.ROTATE_AROUND_CENTER,
             "maskForOcclusion":cfg.OCCLUSION_MASK,
-            "occlusionMaskDir": cfg.OUTPUT_PATH +"occlusion_mask/",
+            "occlusionMaskDir": os.path.join(cfg.OUTPUT_PATH, "occlusion_mask/"),
             "randomOcclusion":cfg.MODE.RANDOCC
     }
 
