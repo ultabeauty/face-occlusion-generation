@@ -186,7 +186,7 @@ def get_srcNmask(image_file,img_path,mask_path):
     src_img = cv2.cvtColor(src_img, cv2.COLOR_BGR2RGB)
 
     src_mask= cv2.imread(os.path.join(mask_path, f"{img_name}.png"))
-    src_mask=cv2.resize(src_mask,(1024,1024),interpolation= cv2.INTER_LANCZOS4)
+    src_mask=cv2.resize(src_mask,src_img.shape[:2],interpolation= cv2.INTER_LANCZOS4)
     src_mask=cv2.cvtColor(src_mask,cv2.COLOR_RGB2GRAY)
 
     return src_img, src_mask
