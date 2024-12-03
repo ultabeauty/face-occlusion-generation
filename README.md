@@ -24,7 +24,7 @@ In CVPRW 2022.
 git clone https://github.com/kennyvoo/face-occlusion-generation.git
 cd face-occlusion-generation/
 ```
-**Dependencies:**
+**Dependencies (original):**
 
 All dependencies for defining the environment are provided in `requirements.txt`.  
 We recommend running this repository using [Anaconda](https://docs.anaconda.com/anaconda/install/):
@@ -38,7 +38,23 @@ conda install -c conda-forge cupy
 ```
 Please install PyTorch that matches your own CUDA version following [https://pytorch.org/](https://pytorch.org/).
 Please install PyTorch before install cupy
-  
+
+**Dependencies for Python 3.9 and CUDA 11.3):**
+
+Install conda forge:
+```
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh
+```
+
+Create environment and install dependencies:
+```bash
+conda create -n occ-gen python=3.9
+conda activate occ-gen
+pip install -r requirements_py39_cu11x.txt
+pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
+```
+
 ## Dataset Preparation
 
 Please download the masks from this [drive](https://drive.google.com/drive/folders/15nZETWlGMdcKY6aHbchRsWkUI42KTNs5?usp=sharing) and the images from [CelebAMask-HQ](https://github.com/switchablenorms/CelebAMask-HQ), [11k Hands](https://sites.google.com/view/11khands) and [DTD](https://www.robots.ox.ac.uk/~vgg/data/dtd/). 
