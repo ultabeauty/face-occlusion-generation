@@ -1,0 +1,15 @@
+imutils
+numpy==1.26.4 #latest 1.x version, due to numpy>=2.0 compat issues
+opencv-python
+opencv-python-headless
+ray
+imgaug
+scikit-image
+scikit-learn
+scipy
+matplotlib
+Pillow
+albumentations
+tqdm
+yacs
+cupy-cuda11x
